@@ -38,6 +38,15 @@ Abstract class FrmModelBase
 	{
 		return $this->errors;
 	}
+	
+	public function byId( $id, $model, $class )
+	{
+		$db = $this->frmPdo->prepare('SELECT * FROM '.$model.' WHERE id=:id');
+		$db->bindValue(":id", $id, \PDO::PARAM_INT);
+		$db->setFetchMode(\PDO::FETCH_CLASS, $class);
+		$result = $db->execute();
+		return $db->fetch();
+	}
 
     /**
      * delete register
