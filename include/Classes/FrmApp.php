@@ -123,16 +123,15 @@ abstract class FrmApp {
 					$_SESSION['userlanguage'] = $browserlang;
 				}
 			}
-		
+				
 			// Page Query FrontPage
-			if ( !empty( $query ) ) {
-				$this->_getRequest = $query;
-				$p = implode('/', $query);
-				if ( isset($this->_routing[$this->_lang]) && in_array($p, $this->_routing[$this->_lang]) ) {
-					$this->_requestedPage = array_search($p, $this->_routing[$this->_lang]);
-				}
-				// Default page
+			$this->_getRequest = $query;
+			$p = is_array($query) ? implode('/', $query) : '';
+			if ( isset($this->_routing[$this->_lang]) && in_array($p, $this->_routing[$this->_lang]) ) {
+				$this->_requestedPage = array_search($p, $this->_routing[$this->_lang]);
 			}
+
+			// Default page
 			if ( empty($this->_requestedPage) ){
 				$contentTranslated = new ContentTranslation();
 				$translated = $contentTranslated->getByUrl($uri);
